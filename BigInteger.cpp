@@ -31,7 +31,7 @@ std::string BigInteger::toString() const {
     }
   std::string result = "";
   result += std::to_string(digits_.back());
-  for (int i = digits_.size() - 2; i > 0; --i) {
+  for (int i = digits_.size() - 2; i >= 0; --i) {
       std::string block = std::to_string(digits_[i]);
       int zeros = Mbase_digits - block.length();
       for (int j = 0; j < zeros; ++j) {
@@ -47,16 +47,48 @@ bool BigInteger::isZero() const
   return digits_.empty();
 }
 
+BigInteger operator+(const BigInteger& lhs, const BigInteger& rhs) {
+  int carry = 0;
+  BigInteger res = lhs;
+  for (size_t i = 0; i < std::max(res.digits_.size(), rhs.digits_.size()) || carry; ++i) {
+      if (i == res.digits_.size()) {
+          res.digits_.push_back(0);
+        }
+      res.digits_[i] += carry + (i < rhs.digits_.size() ? rhs.digits_[i] : 0);
+      carry = (res.digits_[i] >= BigInteger::Mbase_);
+      if (carry) res.digits_[i] -= BigInteger::Mbase_;
+    }
+  return res;
+}
 
+bool operator<(const BigInteger& lhs, const BigInteger& rhs) {
+  if (lhs.digits_.size() != rhs.digits_.size()) {
+      return lhs.digits_.size() < rhs.digits_.size();
+    }
+  for (int i = lhs.digits_.size() - 1; i >= 0; ++i) {
+      if (lhs.digits_[i] != rhs.digits_[i]) {
+          return lhs.digits_[i] < rhs.digits_[i];
+        }
+    }
+  return false;
+}
 
+bool operator>(const BigInteger& lhs, const BigInteger& rhs) {
+  return rhs < lhs;
+}
 
+bool operator==(const BigInteger& lhs, const BigInteger& rhs) {
+  return !(lhs < rhs) && !(lhs > rhs);
+}
 
+bool operator<=(const BigInteger& lhs, const BigInteger& rhs) {
+  return (lhs < rhs || lhs == rhs);
+}
 
+bool operator>=(const BigInteger& lhs, const BigInteger& rhs) {
+  return rhs <= lhs;
+}
 
-
-
-
-
-
-
-
+bool operator!=(const BigInteger& lhs, const BigInteger& rhs) {
+  return !(lhs == rhs);
+}
