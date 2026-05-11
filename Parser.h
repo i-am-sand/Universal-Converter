@@ -20,5 +20,6 @@ public:
 private:
   int ReadDigit(const std::string& input, size_t& pos, int base);
   ParsedNumber split(const std::string& input, int base);
+  BigInteger to_BigInteger(const std::vector<int>& digits, int base);
 };
 

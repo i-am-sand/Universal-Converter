@@ -101,3 +101,12 @@ ParsedNumber Parser::split(const std::string& input, int base) {
     }
   return result;
 }
+
+BigInteger Parser::to_BigInteger(const std::vector<int>& digits, int base) {
+  BigInteger result = BigInteger(0);
+  for (int digit : digits) {
+      result *= base;
+      result += BigInteger(static_cast<uint64_t>(digit));
+    }
+  return result;
+}
