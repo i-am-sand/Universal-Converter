@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -26,13 +27,19 @@ public:
   friend int operator%(const BigInteger& lhs, int rhs); // *
   friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs); // *
   friend BigInteger operator%(const BigInteger& lhs, const BigInteger& rhs); // *
-  friend BigInteger gcd(BigInteger lhs, BigInteger rhs); // *
+  static BigInteger gcd(BigInteger lhs, BigInteger rhs); // *
   friend bool operator<(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator<=(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator>(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator>=(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator==(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator!=(const BigInteger& lhs, const BigInteger& rhs); // *
+  BigInteger& operator+=(const BigInteger& rhs);
+  BigInteger& operator-=(const BigInteger& rhs);
+  BigInteger& operator*=(const BigInteger& rhs);
+  BigInteger& operator/=(const BigInteger& rhs);
+  BigInteger& operator*=(int rhs);
+  BigInteger& operator/=(int rhs);
 
 private:
   static const int Mbase_ = 1000*1000*1000;

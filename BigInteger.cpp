@@ -131,7 +131,7 @@ BigInteger operator/(const BigInteger& lhs, int rhs) {
   if (rhs <= 0) throw std::runtime_error("Division by zero or negative number");
   BigInteger res = lhs;
   int carry = 0;
-  for (size_t i = res.digits_.size(); i >= 0; --i) {
+  for (int i = static_cast<int>(res.digits_.size()) - 1; i >= 0; --i) {
       long long cur = res.digits_[i] + static_cast<long long>(carry) * BigInteger::Mbase_;
       res.digits_[i] = static_cast<int>(cur / rhs);
       carry = static_cast<int>(cur % rhs);
@@ -143,7 +143,7 @@ BigInteger operator/(const BigInteger& lhs, int rhs) {
 int operator%(const BigInteger& lhs, int rhs) {
   if (rhs <= 0) throw std::runtime_error("Division by zero or negative number");
   long long remain = 0;
-  for (size_t i = lhs.digits_.size(); i >= 0; --i) {
+  for (int i = static_cast<int>(lhs.digits_.size()) - 1; i >= 0; --i) {
       long long cur = lhs.digits_[i] + remain * BigInteger::Mbase_;
       remain = cur % rhs;
     }
@@ -160,7 +160,7 @@ BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs) {
   BigInteger res;
   res.digits_.resize(lhs.digits_.size());
   BigInteger cur;
-  for (size_t i = lhs.digits_.size(); i >= 0; --i) {
+  for (int i = static_cast<int>(lhs.digits_.size()) - 1; i >= 0; --i) {
       cur.digits_.insert(cur.digits_.begin(), lhs.digits_[i]);
       cur.trim();
       int left = 0;
@@ -193,7 +193,7 @@ BigInteger operator%(const BigInteger& lhs, const BigInteger& rhs) {
   return remain;
 }
 
-BigInteger gcd(BigInteger lhs, BigInteger rhs) {
+BigInteger BigInteger::gcd(BigInteger lhs, BigInteger rhs) {
   while (!rhs.isZero()) {
       BigInteger r = lhs % rhs;
       lhs = rhs;
@@ -206,7 +206,7 @@ bool operator<(const BigInteger& lhs, const BigInteger& rhs) {
   if (lhs.digits_.size() != rhs.digits_.size()) {
       return lhs.digits_.size() < rhs.digits_.size();
     }
-  for (int i = lhs.digits_.size() - 1; i >= 0; --i) {
+  for (int i = static_cast<int>(lhs.digits_.size()) - 1; i >= 0; --i) {
       if (lhs.digits_[i] != rhs.digits_[i]) {
           return lhs.digits_[i] < rhs.digits_[i];
         }
@@ -223,13 +223,43 @@ bool operator==(const BigInteger& lhs, const BigInteger& rhs) {
 }
 
 bool operator<=(const BigInteger& lhs, const BigInteger& rhs) {
-  return (lhs < rhs || lhs == rhs);
+  return !(rhs < lhs);
 }
 
 bool operator>=(const BigInteger& lhs, const BigInteger& rhs) {
-  return rhs <= lhs;
+  return !(lhs < rhs);
 }
 
 bool operator!=(const BigInteger& lhs, const BigInteger& rhs) {
   return !(lhs == rhs);
+}
+
+BigInteger& BigInteger::operator+=(const BigInteger& rhs) {
+  *this = *this + rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator-=(const BigInteger& rhs) {
+  *this = *this - rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator*=(const BigInteger& rhs) {
+  *this = *this * rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator/=(const BigInteger& rhs) {
+  *this = *this / rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator*=(int rhs) {
+  *this = *this * rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator/=(int rhs) {
+  *this = *this / rhs;
+  return *this;
 }
