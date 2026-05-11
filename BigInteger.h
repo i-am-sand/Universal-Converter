@@ -2,8 +2,7 @@
 #include <vector>
 #include <string>
 #include <cstdint>
-#include <sstream>
-#include <iomanip>
+
 
 class BigInteger {
 public:
@@ -16,12 +15,18 @@ public:
   bool isZero() const; // *
   void trim(); // *
 
-  friend std::ostream& operator<<(std::ostream& os, const BigInteger& i);
+  friend std::ostream& operator<<(std::ostream& os, const BigInteger& i); // *
+  friend std::istream& operator>>(std::istream& is, BigInteger& i); // *
   friend BigInteger operator+(const BigInteger& lhs, const BigInteger& rhs); // *
-  friend BigInteger operator-(const BigInteger& lhs, const BigInteger& rhs);
-  friend BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs);
-  friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs);
-  friend BigInteger operator%(const BigInteger& lhs, const BigInteger& rhs);
+  friend BigInteger operator-(const BigInteger& lhs, const BigInteger& rhs); // *
+  friend BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs); // *
+  friend BigInteger operator*(const BigInteger& lhs, int rhs); // *
+  friend BigInteger operator*(int lhs, const BigInteger& rhs); // *
+  friend BigInteger operator/(const BigInteger& lhs, int rhs); // *
+  friend int operator%(const BigInteger& lhs, int rhs); // *
+  friend BigInteger operator/(const BigInteger& lhs, const BigInteger& rhs); // *
+  friend BigInteger operator%(const BigInteger& lhs, const BigInteger& rhs); // *
+  friend BigInteger gcd(BigInteger lhs, BigInteger rhs); // *
   friend bool operator<(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator<=(const BigInteger& lhs, const BigInteger& rhs); // *
   friend bool operator>(const BigInteger& lhs, const BigInteger& rhs); // *
