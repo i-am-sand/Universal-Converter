@@ -40,6 +40,9 @@ public:
   BigInteger& operator/=(const BigInteger& rhs);
   BigInteger& operator*=(int rhs);
   BigInteger& operator/=(int rhs);
+  BigInteger& operator%=(const BigInteger& rhs);
+  BigInteger& operator+=(int rhs);
+  BigInteger& operator-=(int rhs);
 
 private:
   static const int Mbase_ = 1000*1000*1000;

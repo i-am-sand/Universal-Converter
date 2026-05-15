@@ -1,4 +1,7 @@
 #include "BigInteger.h"
+#include <stdexcept>
+#include <algorithm>
+#include <cctype>
 
 BigInteger::BigInteger(): digits_() {}
 
@@ -10,7 +13,15 @@ BigInteger::BigInteger(uint64_t value) {
 }
 
 BigInteger::BigInteger(const std::string& decimal) {
-  for (int i = decimal.length(); i > 0; i -= Mbase_digits) {
+  if (decimal.empty()) {
+      throw std::runtime_error("Empty BigInteger string");
+    }
+  for (char c : decimal) {
+      if (!std::isdigit(static_cast<unsigned char>(c))) {
+          throw std::runtime_error("Invalid BigInteger string");
+        }
+    }
+  for (int i = static_cast<int>(decimal.length()); i > 0; i -= Mbase_digits) {
       int start = std::max(0, i - Mbase_digits);
       int len = i - start;
       int block = std::stoi(decimal.substr(start, len));
@@ -18,6 +29,8 @@ BigInteger::BigInteger(const std::string& decimal) {
     }
   trim();
 }
+
+BigInteger::~BigInteger() = default;
 
 void BigInteger::trim() {
   while (!digits_.empty() && digits_.back() == 0) {
@@ -261,5 +274,20 @@ BigInteger& BigInteger::operator*=(int rhs) {
 
 BigInteger& BigInteger::operator/=(int rhs) {
   *this = *this / rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator%=(const BigInteger& rhs) {
+  *this = *this % rhs;
+  return *this;
+}
+
+BigInteger& BigInteger::operator+=(int rhs) {
+  *this = *this + BigInteger(static_cast<uint64_t>(rhs));
+  return *this;
+}
+
+BigInteger& BigInteger::operator-=(int rhs) {
+  *this = *this - BigInteger(static_cast<uint64_t>(rhs));
   return *this;
 }

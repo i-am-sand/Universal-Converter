@@ -9,12 +9,16 @@ CONFIG += c++17
 SOURCES += \
     BigFraction.cpp \
     BigInteger.cpp \
+    Formater.cpp \
+    Parser.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     BigFraction.h \
     BigInteger.h \
+    Formater.h \
+    Parser.h \
     mainwindow.h
 
 FORMS += \
