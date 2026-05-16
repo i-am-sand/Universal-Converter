@@ -28,10 +28,10 @@ void MainWindow::on_convertButton_clicked() {
       int from_base = ui->fromBaseEdit->text().toInt(&ok1);
       int to_base = ui->toBaseEdit->text().toInt(&ok2);
       if (!ok1 || from_base < 2 || from_base > 500) {
-          throw std::runtime_error("Ошибка: основание исходной системы должно быть от 2 до 500.");
+          throw std::runtime_error("Ошибка: основание исходной системы должно быть от 2 до 500");
         }
       if (!ok2 || to_base < 2 || to_base > 500) {
-          throw std::runtime_error("Ошибка: основание целевой системы должно быть от 2 до 500.");
+          throw std::runtime_error("Ошибка: основание целевой системы должно быть от 2 до 500");
         }
       std::string input = ui->inputEdit->text().toStdString();
       std::string result = converter_.convert(input, from_base, to_base);
@@ -58,7 +58,7 @@ void MainWindow::on_loadButton_clicked() {
   QFile file(file_name);
 
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-      ui->errorLabel->setText("Ошибка: не удалось открыть файл.");
+      ui->errorLabel->setText("Ошибка: не удалось открыть файл");
       return;
     }
 
@@ -90,7 +90,7 @@ void MainWindow::on_saveButton_clicked() {
   QFile file(file_name);
 
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-      ui->errorLabel->setText("Ошибка: не удалось сохранить файл.");
+      ui->errorLabel->setText("Ошибка: не удалось сохранить файл");
       return;
     }
 
