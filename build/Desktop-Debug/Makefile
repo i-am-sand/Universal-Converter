@@ -52,9 +52,19 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../main.cpp \
+SOURCES       = ../../BigFraction.cpp \
+		../../BigInteger.cpp \
+		../../Converter.cpp \
+		../../Formatter.cpp \
+		../../Parser.cpp \
+		../../main.cpp \
 		../../mainwindow.cpp moc_mainwindow.cpp
-OBJECTS       = main.o \
+OBJECTS       = BigFraction.o \
+		BigInteger.o \
+		Converter.o \
+		Formatter.o \
+		Parser.o \
+		main.o \
 		mainwindow.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
@@ -102,6 +112,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -122,7 +133,17 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
-		../../../../Converter.pro ../../mainwindow.h ../../main.cpp \
+		../../../../Converter.pro ../../BigFraction.h \
+		../../BigInteger.h \
+		../../Converter.h \
+		../../Formatter.h \
+		../../Parser.h \
+		../../mainwindow.h ../../BigFraction.cpp \
+		../../BigInteger.cpp \
+		../../Converter.cpp \
+		../../Formatter.cpp \
+		../../Parser.cpp \
+		../../main.cpp \
 		../../mainwindow.cpp
 QMAKE_TARGET  = Converter
 DESTDIR       = 
@@ -180,6 +201,7 @@ Makefile: ../../Converter.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qm
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -250,6 +272,7 @@ Makefile: ../../Converter.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qm
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf:
@@ -289,8 +312,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../BigFraction.h ../../BigInteger.h ../../Converter.h ../../Formatter.h ../../Parser.h ../../mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../BigFraction.cpp ../../BigInteger.cpp ../../Converter.cpp ../../Formatter.cpp ../../Parser.cpp ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
 
 
@@ -351,6 +374,30 @@ compiler_lex_clean:
 compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
+
+BigFraction.o: ../../BigFraction.cpp ../../BigFraction.h \
+		../../BigInteger.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BigFraction.o ../../BigFraction.cpp
+
+BigInteger.o: ../../BigInteger.cpp ../../BigInteger.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BigInteger.o ../../BigInteger.cpp
+
+Converter.o: ../../Converter.cpp ../../Converter.h \
+		../../Formatter.h \
+		../../BigFraction.h \
+		../../BigInteger.h \
+		../../Parser.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Converter.o ../../Converter.cpp
+
+Formatter.o: ../../Formatter.cpp ../../Formatter.h \
+		../../BigFraction.h \
+		../../BigInteger.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Formatter.o ../../Formatter.cpp
+
+Parser.o: ../../Parser.cpp ../../Parser.h \
+		../../BigFraction.h \
+		../../BigInteger.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Parser.o ../../Parser.cpp
 
 main.o: ../../main.cpp ../../mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp

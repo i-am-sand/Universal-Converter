@@ -9,7 +9,8 @@ CONFIG += c++17
 SOURCES += \
     BigFraction.cpp \
     BigInteger.cpp \
-    Formater.cpp \
+    Converter.cpp \
+    Formatter.cpp \
     Parser.cpp \
     main.cpp \
     mainwindow.cpp
@@ -17,7 +18,8 @@ SOURCES += \
 HEADERS += \
     BigFraction.h \
     BigInteger.h \
-    Formater.h \
+    Converter.h \
+    Formatter.h \
     Parser.h \
     mainwindow.h
 

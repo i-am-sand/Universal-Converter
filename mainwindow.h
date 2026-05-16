@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#pragma once
 #include <QMainWindow>
+#include "Converter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -11,13 +12,19 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+  explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow() override;
+
+private slots:
+  void on_convertButton_clicked();
+  void on_loadButton_clicked();
+  void on_saveButton_clicked();
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
+  Converter converter_;
 };
 #endif // MAINWINDOW_H
