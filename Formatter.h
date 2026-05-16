@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <map>
 #include "BigFraction.h"
+const size_t MAX_OUTPUT_LENGTH = 100000;
 
 
 class Formatter {
