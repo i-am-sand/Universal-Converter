@@ -43,8 +43,11 @@ public:
   BigInteger& operator%=(const BigInteger& rhs);
   BigInteger& operator+=(int rhs);
   BigInteger& operator-=(int rhs);
+  static BigInteger karatsuba(const BigInteger& a, const BigInteger& b);
 
 private:
+  static void split(const BigInteger& num, size_t m, BigInteger& first, BigInteger& second);
+  static BigInteger shiftLeft(const BigInteger& a, size_t k);
   static const int Mbase_ = 1000*1000*1000;
   static const int Mbase_digits = 9;
   std::vector<int> digits_;

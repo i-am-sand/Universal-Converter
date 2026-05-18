@@ -44,6 +44,7 @@ std::string BigInteger::toString() const {
     }
   std::string result = "";
   result += std::to_string(digits_.back());
+  // дополняем блоки нулями, т.к. каждый кроме первого содержит по 9 цифр
   for (int i = digits_.size() - 2; i >= 0; --i) {
       std::string block = std::to_string(digits_[i]);
       int zeros = Mbase_digits - static_cast<int>(block.length());
@@ -126,7 +127,7 @@ BigInteger operator*(int lhs, const BigInteger& rhs) {
 }
 
 BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs) {
-  BigInteger res;
+  /*BigInteger res;
   res.digits_.resize(lhs.digits_.size() + rhs.digits_.size());
   for (size_t i = 0; i < lhs.digits_.size(); ++i) {
       for (int j = 0, carry = 0; j < static_cast<int>(rhs.digits_.size()) || carry; ++j) {
@@ -136,6 +137,54 @@ BigInteger operator*(const BigInteger& lhs, const BigInteger& rhs) {
           carry = static_cast<int>(cur / BigInteger::Mbase_);
         }
     }
+  res.trim();
+  return res;*/
+  return BigInteger::karatsuba(lhs, rhs);
+}
+
+BigInteger BigInteger::shiftLeft(const BigInteger& a, size_t k) {
+  if (a.isZero() || k == 0) return a;
+  BigInteger res = a;
+  res.digits_.insert(res.digits_.begin(), k, 0);
+  return res;
+}
+
+void BigInteger::split(const BigInteger& num, size_t k, BigInteger& first, BigInteger& second) {
+  if (k >= num.digits_.size()) {
+      first = num;
+      second = BigInteger();
+      return;
+    }
+  first.digits_.assign(num.digits_.begin(), num.digits_.begin() + k);
+  second.digits_.assign(num.digits_.begin() + k, num.digits_.end());
+  first.trim();
+  second.trim();
+}
+
+BigInteger BigInteger::karatsuba(const BigInteger& lhs, const BigInteger& rhs) {
+  if (lhs.digits_.size() <= 64 || rhs.digits_.size() <= 64) {
+      BigInteger res;
+      res.digits_.resize(lhs.digits_.size() + rhs.digits_.size());
+      for (size_t i = 0; i < lhs.digits_.size(); ++i) {
+          for (int j = 0, carry = 0; j < static_cast<int>(rhs.digits_.size()) || carry; ++j) {
+              long long cur = res.digits_[i + j] + static_cast<long long>(lhs.digits_[i]) *
+              (j < static_cast<int>(rhs.digits_.size()) ? rhs.digits_[j] : 0) + carry;
+              res.digits_[i + j] = static_cast<int>(cur % BigInteger::Mbase_);
+              carry = static_cast<int>(cur / BigInteger::Mbase_);
+            }
+        }
+      res.trim();
+      return res;
+    }
+  size_t n = std::max(lhs.digits_.size(), rhs.digits_.size());
+  size_t k = n / 2;
+  BigInteger lhs_f, lhs_s, rhs_f, rhs_s;
+  split(lhs, k, lhs_f, lhs_s);
+  split(rhs, k, rhs_f, rhs_s);
+  BigInteger mult1 = lhs_f * rhs_f;
+  BigInteger mult2 = lhs_s * rhs_s;
+  BigInteger mult3 = (lhs_f + lhs_s) * (rhs_f + rhs_s) - mult1 - mult2;
+  BigInteger res = shiftLeft(mult2, 2 * k) + shiftLeft(mult3, k) + mult1;
   res.trim();
   return res;
 }

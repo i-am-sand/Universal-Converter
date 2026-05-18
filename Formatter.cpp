@@ -37,7 +37,7 @@ std::string Formatter::integer_to_base(BigInteger num, int base) {
 
 std::string Formatter::format(const BigFraction& num, int base) {
   if (base < 2 || base > 500) {
-      throw std::runtime_error("Ошибка: основание исходной системы должно быть целым числом от 2 до 500");
+      throw std::runtime_error("Ошибка: основание целевой системы должно быть целым числом от 2 до 500");
     }
   BigInteger integer_part = num.integerPart();
   BigInteger remainder = num.remainder();
